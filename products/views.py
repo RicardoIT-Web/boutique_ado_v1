@@ -9,7 +9,7 @@ from .models import Product, Category
 
 
 def all_products(request):
-    """ A view to show individual product details """
+    """ A view to show all products, including sorting and search queries """
 
     products = Product.objects.all()
     query = None
@@ -25,7 +25,7 @@ def all_products(request):
                 sortkey = 'lower_name'
                 products = products.annotate(lower_name=Lower('name'))
             if sortkey == 'category':
-                sortkey = 'category_name'
+                sortkey = 'category__name'
             if 'direction' in request.GET:
                 direction = request.GET['direction']
                 if direction == 'desc':
@@ -52,14 +52,14 @@ def all_products(request):
         'products': products,
         'search_term': query,
         'current_categories': categories,
-        'current_sorting': current_sorting
+        'current_sorting': current_sorting,
     }
 
     return render(request, 'products/products.html', context)
 
 
 def product_detail(request, product_id):
-    """ A view to show all products, including sorting and search queries """
+    """ A view to show individual product details """
 
     product = get_object_or_404(Product, pk=product_id)
 
