@@ -1,1 +1,1 @@
-web: gunicorn boutique_ado.wisgi:application
+web: gunicorn boutiqueado-v1.wisgi:application
